@@ -1,0 +1,15 @@
+# Загружается только то, что перечислено ниже. Всё остальное, включая .env, на Vercel не попадает.
+/*
+!/vercel.json
+!/index.html
+!/base.css
+!/tokens.css
+!/styles.css
+!/main.js
+!/gallery.js
+!/favicon.svg
+!/robots.txt
+!/sitemap.xml
+!/site.webmanifest
+!/assets
+/assets/source

@@ -1,0 +1,11 @@
+{
+  "name": "Никита Попов",
+  "short_name": "Попов",
+  "description": "Разработчик ИИ-агентов и Telegram-ботов",
+  "start_url": "/",
+  "display": "standalone",
+  "lang": "ru",
+  "background_color": "#f7f5f0",
+  "theme_color": "#f7f5f0",
+  "icons": [{ "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}

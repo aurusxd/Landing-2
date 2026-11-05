@@ -1,0 +1,6 @@
+.env
+node_modules/
+assets/source/
+.hallmark/shots/
+.hallmark/
+.claude/
