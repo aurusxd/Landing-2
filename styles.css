@@ -81,8 +81,9 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { .btn, .nav__widget a { transition: background-color var(--dur-short) linear; } }
 
 .stage { position: absolute; inset: auto 0 0; height: var(--stage-h); perspective: 1300px; perspective-origin: 50% 30%; pointer-events: none; }
-.scene { position: absolute; inset: 0; transform-style: preserve-3d; }
-.portrait { position: absolute; left: 50%; bottom: 0; height: 100%; width: auto; max-width: none; transform: translateX(-52%); }
+.scene { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 100%; }
+/* Портрет уходит под край первого экрана: наклон сцены за мышью не открывает полосу фона под плечами. */
+.portrait { --sink: 24px; position: absolute; left: 50%; bottom: calc(var(--sink) * -1); height: calc(100% + var(--sink)); width: auto; max-width: none; transform: translateX(-52%); }
 .ring { --r: clamp(300px, 29vw, 430px); position: absolute; left: 50%; top: 50%; width: 0; height: 0; margin: 0; padding: 0; list-style: none; transform-style: preserve-3d; transform: rotateZ(-4deg) rotateX(-7deg) rotateY(-32deg); }
 .ring li { --w: 172px; --h: 104px; position: absolute; left: calc(var(--w) / -2); top: calc(var(--h) / -2); width: var(--w); height: var(--h); transform-style: preserve-3d; transform: rotateY(calc(var(--i) * 60deg)) translateZ(var(--r)); }
 .tile { position: absolute; inset: 0; border-radius: 16px; background: var(--glass); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); box-shadow: inset 0 0 0 1px var(--glass-edge), 0 18px 36px -18px var(--glass-shade); }
