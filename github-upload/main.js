@@ -1,3 +1,13 @@
+// Поэтапное появление первого экрана. Класс intro ставит скрипт в <head>.
+(() => {
+  const root = document.documentElement;
+  clearTimeout(window.__introSafety);
+  if (!root.classList.contains('intro')) return;
+  void document.body.offsetHeight; // скрытое состояние должно примениться до старта переходов
+  root.classList.add('intro-go');
+  setTimeout(() => root.classList.remove('intro', 'intro-go'), 2800);
+})();
+
 // Кольцо карточек вокруг портрета, навигация и одно появление при прокрутке.
 // Без скриптов и при reduced motion страница полностью видна, кольцо стоит на месте.
 (() => {

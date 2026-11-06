@@ -33,7 +33,16 @@
 <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="assets/portrait.webp" imagesrcset="assets/portrait-440.webp 440w, assets/portrait.webp 720w" imagesizes="(min-width: 48rem) 560px, 100vw" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
-<script>document.documentElement.classList.add('js');</script>
+<script>
+/* Поэтапное появление первого экрана. При reduced motion и без скриптов всё видно сразу. */
+(function (c) {
+  c.add('js');
+  try { if (matchMedia('(prefers-reduced-motion: reduce)').matches) return; } catch (e) {}
+  c.add('intro');
+  /* Если main.js не загрузился, первый экран всё равно появится. */
+  window.__introSafety = setTimeout(function () { c.remove('intro', 'intro-go'); }, 4000);
+})(document.documentElement.classList);
+</script>
 
 <script type="application/ld+json">
 {
