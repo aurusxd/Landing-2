@@ -84,12 +84,17 @@ html { scroll-behavior: smooth; }
 .scene { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 100%; }
 /* Портрет уходит под край первого экрана: наклон сцены за мышью не открывает полосу фона под плечами. */
 .portrait { --sink: 24px; position: absolute; left: 50%; bottom: calc(var(--sink) * -1); height: calc(100% + var(--sink)); width: auto; max-width: none; transform: translateX(-52%); }
-.ring { --r: clamp(300px, 29vw, 430px); position: absolute; left: 50%; top: 50%; width: 0; height: 0; margin: 0; padding: 0; list-style: none; transform-style: preserve-3d; transform: rotateZ(-4deg) rotateX(-7deg) rotateY(-32deg); }
-.ring li { --w: 172px; --h: 104px; position: absolute; left: calc(var(--w) / -2); top: calc(var(--h) / -2); width: var(--w); height: var(--h); transform-style: preserve-3d; transform: rotateY(calc(var(--i) * 60deg)) translateZ(var(--r)); }
-.tile { position: absolute; inset: 0; border-radius: 16px; background: var(--glass); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); box-shadow: inset 0 0 0 1px var(--glass-edge), 0 18px 36px -18px var(--glass-shade); }
-.tile__text { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--space-2xs); padding: var(--space-sm) var(--space-md); text-align: left; color: var(--color-ink); backface-visibility: hidden; transform: translateZ(1px); }
+/* Кольцо крутится вокруг портрета (угол --a ведёт main.js), карточки поворачиваются вместе с ним.
+   --c = косинус поворота: 1 — смотрит прямо на зрителя, 0 — стоит ребром, −1 — ушла за голову.
+   Развёрнутые карточки не исчезают, а уходят в матовое стекло: лицо бледнеет до 45%, текст размывается, оборот — светлое стекло. */
+.ring { --r: clamp(300px, 29vw, 430px); --a: -32deg; position: absolute; left: 50%; top: 50%; width: 0; height: 0; margin: 0; padding: 0; list-style: none; transform-style: preserve-3d; transform: rotateZ(-4deg) rotateX(-7deg) rotateY(var(--a)); }
+.ring li { --w: 172px; --h: 104px; --c: cos(var(--i) * 60deg + var(--a)); position: absolute; left: calc(var(--w) / -2); top: calc(var(--h) / -2); width: var(--w); height: var(--h); transform-style: preserve-3d; transform: rotateY(calc(var(--i) * 60deg)) translateZ(var(--r)); }
+.ring li::before { content: ""; position: absolute; inset: 0; border-radius: 16px; background: linear-gradient(135deg, rgb(255 255 255 / 0.6), rgb(180 176 168 / 0.32)); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.7), 0 18px 36px -20px var(--glass-shade); backface-visibility: hidden; transform: rotateY(180deg); opacity: clamp(0.55, calc(0.55 - var(--c) * 0.35), 0.9); }
+.tile { position: absolute; inset: 0; border-radius: 16px; background: var(--glass); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); box-shadow: inset 0 0 0 1px var(--glass-edge), 0 18px 36px -18px var(--glass-shade); backface-visibility: hidden; opacity: clamp(0.45, calc(0.45 + var(--c) * 0.55), 1); }
+.tile__text { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--space-2xs); padding: var(--space-sm) var(--space-md); text-align: left; color: var(--color-ink); backface-visibility: hidden; transform: translateZ(1px); opacity: clamp(0.2, calc(var(--c) * 1.4 - 0.1), 1); filter: blur(calc((1 - var(--c)) * 1.5px)); }
 .tile__text strong { font-size: var(--text-md); line-height: 1.2; }
 .tile__text span { font-size: 0.75rem; line-height: 1.3; color: var(--color-ink-2); }
+.ring li.is-ink::before { background: linear-gradient(135deg, rgb(58 57 54 / 0.92), rgb(14 14 13 / 0.85)); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08), 0 18px 36px -20px var(--glass-shade); }
 .is-ink .tile { background: var(--color-ink); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 18px 36px -18px var(--glass-shade); }
 .is-ink .tile__text { color: var(--color-on-ink); }
 .is-ink .tile__text span { color: var(--color-on-ink-2); }

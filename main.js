@@ -35,7 +35,7 @@
       const scrolled = scrollY - lastScroll;
       lastScroll = scrollY;
       angle -= SPEED * dt + scrolled * 0.12;
-      ring.style.transform = `rotateZ(-4deg) rotateX(-7deg) rotateY(${angle.toFixed(2)}deg)`;
+      ring.style.setProperty('--a', `${angle.toFixed(2)}deg`);
       tiltX += (targetX - tiltX) * 0.06;
       tiltY += (targetY - tiltY) * 0.06;
       scene.style.transform = `rotateY(${tiltX.toFixed(2)}deg) rotateX(${tiltY.toFixed(2)}deg)`;
