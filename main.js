@@ -8,56 +8,12 @@
   setTimeout(() => root.classList.remove('intro', 'intro-go'), 2800);
 })();
 
-// Кольцо карточек вокруг портрета, навигация и одно появление при прокрутке.
-// Без скриптов и при reduced motion страница полностью видна, кольцо стоит на месте.
+// Навигация и одно появление при прокрутке. Кольцо карточек вокруг портрета ведёт ring.js.
+// Без скриптов и при reduced motion страница полностью видна.
 (() => {
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const stage = document.querySelector('[data-stage]');
-  const scene = document.querySelector('[data-scene]');
-  const ring = document.querySelector('[data-ring]');
   const nav = document.querySelector('[data-nav]');
   const hero = document.getElementById('top');
-
-  if (ring && !still) {
-    const SPEED = 6.5; // градусов в секунду
-    let angle = -32;
-    let last = 0;
-    let frame = 0;
-    let lastScroll = scrollY;
-    let targetX = 0;
-    let targetY = 0;
-    let tiltX = 0;
-    let tiltY = 0;
-
-    const tick = (now) => {
-      const dt = Math.min(0.05, (now - last) / 1000 || 0);
-      last = now;
-      const scrolled = scrollY - lastScroll;
-      lastScroll = scrollY;
-      angle -= SPEED * dt + scrolled * 0.12;
-      ring.style.setProperty('--a', `${angle.toFixed(2)}deg`);
-      tiltX += (targetX - tiltX) * 0.06;
-      tiltY += (targetY - tiltY) * 0.06;
-      scene.style.transform = `rotateY(${tiltX.toFixed(2)}deg) rotateX(${tiltY.toFixed(2)}deg)`;
-      frame = requestAnimationFrame(tick);
-    };
-
-    new IntersectionObserver(([entry]) => {
-      cancelAnimationFrame(frame);
-      if (entry.isIntersecting) {
-        last = performance.now();
-        frame = requestAnimationFrame(tick);
-      }
-    }).observe(stage);
-
-    if (matchMedia('(hover: hover)').matches) {
-      hero.addEventListener('pointermove', (event) => {
-        const box = hero.getBoundingClientRect();
-        targetX = ((event.clientX - box.left) / box.width - 0.5) * 7;
-        targetY = ((event.clientY - box.top) / box.height - 0.5) * -3;
-      }, { passive: true });
-    }
-  }
 
   // Знак в навигации получает стекло, как только страница ушла с первого экрана.
   new IntersectionObserver(([entry]) => nav.classList.toggle('is-stuck', !entry.isIntersecting), { rootMargin: '-120px 0px 0px' }).observe(document.querySelector('.hero__copy'));
